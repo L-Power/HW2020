@@ -1,6 +1,6 @@
 
 let tasks = []; // {title: "ddddd", done: false}
-
+let importitems=0;
 function renderEditor() {
     let inputEl = document.querySelector("#default-todo-panel .todo-editor > input");
 
@@ -17,6 +17,7 @@ function renderEditor() {
         let newTask = {
             title: inputEl.value,
             done: false,
+            import: false
         };
 
         inputEl.value = "";
@@ -75,7 +76,7 @@ function renderTaskItems() {
         titleEl.innerText = task.title;
         itemEl.append(titleEl);
 
-        let ctrlbarEl = renderTaskCtrlBar(tasks, i);
+        let ctrlbarEl = renderTaskCtrlBar(task,itemEl, i);
 
         itemEl.append(ctrlbarEl);
 
@@ -84,12 +85,46 @@ function renderTaskItems() {
 }
 
 
-function renderTaskCtrlBar(tasks, taskIdx) {
+function renderTaskCtrlBar(task, itemEl, taskIdx) {
     let ctrlbarEl = document.createElement("div");
     ctrlbarEl.className = "ctrlbar";
 
+    let impEl = document.createElement("input");
+    impEl.type = "checkbox";
+    impEl.checked = task.import;
+    if (task.import) {
+        itemEl.classList.add("import");
+    }
+    else {
+        itemEl.classList.remove("import");
+    }
+    impEl.onchange = (e) => {
+        task.import = e.target.checked;
+        if (task.import) {
+            itemEl.classList.add("import");
+            let t = task;
+            for (let j = taskIdx; j > 0; j--) {
+                tasks[j] = tasks[j - 1];
+            }
+            tasks[0] = t;
+            importitems++;
+        }
+        else {
+            itemEl.classList.remove("import");
+            let t = task;
+            for (let j = taskIdx; j <tasks.length-1; j++) {
+                tasks[j] = tasks[j+1];
+            }
+            tasks[tasks.length-1] = t;
+            importitems--;
+        }
+        renderTaskItems();
+
+    }
+    ctrlbarEl.append(impEl);
+
     let upEl = document.createElement("button");
-    if (taskIdx === 0) {
+    if (taskIdx === 0||taskIdx===importitems) {
         upEl.disabled = true;
     }
     upEl.innerText = "↿";
@@ -102,7 +137,7 @@ function renderTaskCtrlBar(tasks, taskIdx) {
     ctrlbarEl.append(upEl);
 
     let downEl = document.createElement("button");
-    if (taskIdx ===tasks.length-1) {
+    if (taskIdx ===tasks.length-1||taskIdx===importitems-1) {
         downEl.disabled = true;
     }
     downEl.innerText = "⇂";
