@@ -3,14 +3,27 @@ body{
     display: flex;
     justify-content: center;
 }
+h1{
+    color: #cc5d91;
+}
+
+h3{
+    margin: 10px;
+    color: #d88f21;
+}
+
+h4{
+    margin: 10px;
+    color: rgb(71, 185, 71);
+}
 
 .todo-panel{
     width: 30em;
     min-height: 20em;
     margin-top: 5em;
     
-    border: 1px solid #eee;
-    box-shadow: 4px 6px 6px #888;
+    border: 1px solid rgb(87, 134, 156);
+    box-shadow: 4px 6px 6px rgb(87, 134, 156);
 }
 
 .todo-editor{
@@ -63,4 +76,28 @@ body{
 
 .task.done > label {
     text-decoration: line-through;
+}
+
+.todo-items  .ctrlbar > input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    background: url(灰星1.jpg);
+    background-size: 20px 20px;
+    margin-left: 18px;
+
+}
+.task.import .ctrlbar > input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    background: url(红星1.jpg);
+    background-size: 20px 20px;
+    margin-left: 18px;
+
+}
+.task.import >label{
+    color: red;
 }
